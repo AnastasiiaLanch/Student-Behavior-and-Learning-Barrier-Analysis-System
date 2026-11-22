@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Inter', -apple-system, system-ui, sans-serif;
+            background: #0d1117;
+            color: #c9d1d9;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #58a6ff;
+            margin: 48px 0 0.75rem;
+        }
+        h1:first-of-type {
+            margin-top: 0;
+        }
+        h2 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #f0f6fc;
+            margin: 40px 0 0.75rem;
+            padding-bottom: 0.4rem;
+            border-bottom: 1px solid #21262d;
+        }
+        p, li { color: #8b949e; font-size: 0.9rem; line-height: 1.6; }
+        a { color: #58a6ff; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+
+        .source {
+            color: #484f58;
+            font-size: 0.78rem;
+            margin-bottom: 1.5rem;
+        }
+        .source a { color: #484f58; }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 0.75rem;
+            margin: 1rem 0;
+        }
+        .stat-card {
+            background: #161b22;
+            border: 1px solid #21262d;
+            border-radius: 8px;
+            padding: 1rem;
+        }
+        .stat-card .label {
+            font-size: 0.72rem;
+            color: #8b949e;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.25rem;
+        }
+        .stat-card .value {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #f0f6fc;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 0.75rem 0;
+            font-size: 0.85rem;
+        }
+        th {
+            text-align: left;
+            color: #8b949e;
+            font-weight: 500;
+            padding: 0.4rem 0.75rem;
+            border-bottom: 1px solid #30363d;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+        td {
+            padding: 0.35rem 0.75rem;
+            border-bottom: 1px solid #21262d;
+            color: #c9d1d9;
+        }
+        tr:last-child td { border-bottom: none; }
+
+        .bar-wrap {
+            background: #21262d;
+            border-radius: 3px;
+            height: 8px;
+            margin-top: 4px;
+            overflow: hidden;
+        }
+        .bar-fill {
+            height: 100%;
+            border-radius: 3px;
+        }
+        .bar-pass { background: #238636; }
+        .bar-distinction { background: #58a6ff; }
+        .bar-fail { background: #f85149; }
+        .bar-withdrawn { background: #d29922; }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 1rem;
+            font-size: 0.85rem;
+        }
+        .back-link-bottom {
+            display: inline-block;
+            margin-top: 2rem;
+            font-size: 0.85rem;
+        }
+
+        .stats-collapse {
+            margin: 1.5rem 0;
+        }
+        .stats-collapse summary {
+            cursor: pointer;
+            color: #58a6ff;
+            font-size: 1rem;
+            font-weight: 600;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #21262d;
+            user-select: none;
+        }
+        .stats-collapse summary:hover {
+            color: #79c0ff;
+        }
+        .stats-collapse[open] summary {
+            margin-bottom: 0.75rem;
+        }
+        .stats-content {
+            max-height: 90vh;
+            overflow-y: auto;
+            border: 1px solid #21262d;
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            margin-top: 0.5rem;
+        }
+        .stats-content::-webkit-scrollbar {
+            width: 5px;
+        }
+        .stats-content::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .stats-content::-webkit-scrollbar-thumb {
+            background: #30363d;
+            border-radius: 3px;
+        }
+        .stats-content::-webkit-scrollbar-thumb:hover {
+            background: #484f58;
+        }
+        .stats-content {
+            scrollbar-width: thin;
+            scrollbar-color: #30363d transparent;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <p class="back-link"><a href="/srs">← Назад</a></p>
+
+        <h1>Изначальный датасет</h1>
+
+        <p style="color:#8b949e;font-size:0.85rem;margin-bottom:0.5rem">OULAD — Open University Learning Analytics Dataset</p>
+
+        <p class="source">
+            Источник: <a href="https://analyse.kmi.open.ac.uk/open_dataset" target="_blank" rel="noopener">Open University</a> ·
+            <a href="https://archive.ics.uci.edu/dataset/349" target="_blank" rel="noopener">UCI ML Repository</a> ·
+            Лицензия: CC BY 4.0
+        </p>
+
+        <p>
+            Анонимизированный датасет виртуальной образовательной среды (VLE) Открытого университета Великобритании.
+            Содержит данные о студентах, курсах и взаимодействиях с учебными материалами для 7 модулей
+            за 2013–2014 годы. Используется для задач прогнозирования успеваемости и отсева студентов.
+        </p>
+
+        <div class="stat-grid">
+            <div class="stat-card">
+                <div class="label">Студентов</div>
+                <div class="value">32 593</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Модулей</div>
+                <div class="value">7</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Презентаций</div>
+                <div class="value">22</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Записей VLE</div>
+                <div class="value">10,7 млн</div>
+            </div>
+        </div>
+
+        <h2>Результаты студентов</h2>
+        <table>
+            <tr><th>Исход</th><th>Студентов</th><th>Доля</th><th></th></tr>
+            <tr>
+                <td>Pass (сдал)</td>
+                <td>12 361</td><td>37,9%</td>
+                <td><div class="bar-wrap"><div class="bar-fill bar-pass" style="width:38%"></div></div></td>
+            </tr>
+            <tr>
+                <td>Distinction (отлично)</td>
+                <td>3 024</td><td>9,3%</td>
+                <td><div class="bar-wrap"><div class="bar-fill bar-distinction" style="width:9%"></div></div></td>
+            </tr>
+            <tr>
+                <td>Fail (провал)</td>
+                <td>7 052</td><td>21,6%</td>
+                <td><div class="bar-wrap"><div class="bar-fill bar-fail" style="width:22%"></div></div></td>
+            </tr>
+            <tr>
+                <td>Withdrawn (отчислен)</td>
+                <td>10 156</td><td>31,2%</td>
+                <td><div class="bar-wrap"><div class="bar-fill bar-withdrawn" style="width:31%"></div></div></td>
+            </tr>
+        </table>
+
+        <h2>Структура датасета</h2>
+        <table>
+            <tr><th>Файл</th><th>Строк</th><th>Размер</th><th>Содержание</th></tr>
+            <tr style="opacity:0.4"><td><s>courses.csv</s></td><td>23</td><td>526 B</td><td>Модули и их презентации — не используется</td></tr>
+            <tr><td>assessments.csv</td><td>207</td><td>8,1 KB</td><td>Задания: тип (TMA/CMA/Exam), дедлайн, вес</td></tr>
+            <tr style="opacity:0.4"><td><s>vle.csv</s></td><td>6 365</td><td>265 KB</td><td>Материалы VLE — не используется</td></tr>
+            <tr><td>studentInfo.csv</td><td>32 594</td><td>3,4 MB</td><td>Демография: пол, возраст, регион, образование, результат</td></tr>
+            <tr><td>studentRegistration.csv</td><td>32 594</td><td>1,1 MB</td><td>Даты регистрации и отчисления</td></tr>
+            <tr><td>studentAssessment.csv</td><td>173 913</td><td>5,5 MB</td><td>Оценки за задания (0–100), даты сдачи</td></tr>
+            <tr><td>studentVle.csv</td><td>10 655 281</td><td>433 MB</td><td>Кликстрим: взаимодействия студентов с материалами VLE</td></tr>
+        </table>
+
+        <h2>Схема связей таблиц</h2>
+        <div style="background:#0d1117; border:1px solid #21262d; border-radius:8px; padding:1rem; margin:0.75rem 0; text-align:center; overflow-x:auto;">
+            <img src="/srs/static/schema_diagram.svg" alt="Диаграмма связей таблиц OULAD" style="max-width:100%; height:auto;">
+        </div>
+
+        <h2>Ключи соединений</h2>
+        <table>
+            <tr><th>Таблица A</th><th>Таблица B</th><th>Поля соединения</th></tr>
+            <tr><td>studentInfo</td><td>studentRegistration</td><td><code>code_module + code_presentation + id_student</code></td></tr>
+            <tr><td>studentInfo</td><td>studentVle</td><td><code>code_module + code_presentation + id_student</code></td></tr>
+            <tr><td>studentInfo</td><td>studentAssessment</td><td><code>id_student</code></td></tr>
+            <tr><td>assessments</td><td>studentAssessment</td><td><code>id_assessment</code></td></tr>
+            <tr><td>studentVle</td><td>assessments</td><td><em>напрямую не соединяются</em></td></tr>
+        </table>
+
+        <h2>Демография</h2>
+        <div class="stat-grid">
+            <div class="stat-card">
+                <div class="label">Мужчины / Женщины</div>
+                <div class="value">17 875 / 14 718</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Возраст 0–35</div>
+                <div class="value">22 944 (70%)</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Возраст 35–55</div>
+                <div class="value">9 433 (29%)</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Возраст 55+</div>
+                <div class="value">216 (0,7%)</div>
+            </div>
+        </div>
+
+        <h2>Типовые задачи</h2>
+        <ul>
+            <li><strong>Классификация:</strong> предсказание успеваемости (Pass/Fail/Withdrawn)</li>
+            <li><strong>Регрессия:</strong> предсказание итогового балла</li>
+            <li><strong>Кластеризация:</strong> выявление групп студентов по поведению в VLE</li>
+            <li><strong>Раннее предупреждение:</strong> прогнозирование отсева на ранних неделях курса</li>
+        </ul>
+
+        <h1>Объединение</h1>
+
+        <h2>Объединённый датасет для обучения</h2>
+        <p>
+            Все 5 таблиц объединены в единый датасет с вычисленными признаками.
+            Файл: <code>/home/rsr/merged_features.csv</code>, 14.0 MB.
+        </p>
+
+        <h2>Разделение на train / test</h2>
+        <p>
+            Данные разделены на обучающую и тестовую выборки в соотношении 80/20
+            со стратификацией по target (сохранение доли дропаутов в обеих выборках).
+        </p>
+        <table>
+            <tr><th>Выборка</th><th>Строк</th><th>Доля</th><th>target=0</th><th>target=1</th><th>Дропаутов</th></tr>
+            <tr>
+                <td>train.csv</td>
+                <td>26 074</td><td>80%</td>
+                <td>17 949</td><td>8 125</td>
+                <td>31,2%</td>
+            </tr>
+            <tr>
+                <td>test.csv</td>
+                <td>6 519</td><td>20%</td>
+                <td>4 488</td><td>2 031</td>
+                <td>31,2%</td>
+            </tr>
+        </table>
+        <p style="font-size:0.78rem;color:#484f58;margin-top:0.5rem">
+            random_state=42, stratify по target
+        </p>
+        <p style="font-size:0.82rem;color:#8b949e;margin-top:0.3rem">
+            Доля дропаутов (31,2%) одинакова в обеих выборках, потому что использована
+            <strong>стратификация</strong> — разбиение с сохранением пропорций классов.
+            Без неё в одной из выборок могло оказаться, например, 28% дропаутов, а в другой 35%,
+            и модель обучалась бы на смещённых данных.
+        </p>
+
+        <h2>Заполнение пропусков</h2>
+        <p>
+            Все статистики вычислены на train и применены к обеим выборкам.
+            <strong>После заполнения: 0 пропусков</strong> в train (было 144 615 NaN) и в test (было 36 817 NaN).
+            Добавлены 3 индикаторных признака.
+        </p>
+        <table>
+            <tr><th>Группа</th><th>Пропусков</th><th>Метод заполнения</th></tr>
+            <tr><td>Демография (gender, education, …)</td><td>0</td><td>Категории → «Unknown», числовые → медиана train</td></tr>
+            <tr><td>VLE / Engagement</td><td>~2 277</td><td>→ 0, флаг is_no_activity</td></tr>
+            <tr><td>Consistency (avg_gap, …)</td><td>~2 277</td><td>→ 0 (или max_gap_days из train: 225)</td></tr>
+            <tr><td>Performance / Оценки</td><td>~4 652</td><td>→ 0, флаг is_no_assessment</td></tr>
+            <tr><td>Temporal</td><td>~18 000</td><td>→ 0; days_until_dropout = −1 для завершивших</td></tr>
+            <tr><td>Course Load</td><td>~4 652</td><td>Медиана по модулю-презентации из train</td></tr>
+            <tr><td>Barrier Scores</td><td>0</td><td>→ 0, флаг missing_barrier_flag</td></tr>
+        </table>
+
+        <div class="stat-grid">
+            <div class="stat-card">
+                <div class="label">Студентов</div>
+                <div class="value">32 593</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Признаков</div>
+                <div class="value">45</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Целевая переменная</div>
+                <div class="value">target</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Категорий признаков</div>
+                <div class="value">7</div>
+            </div>
+        </div>
+
+        <details class="stats-collapse">
+        <summary>Статистика и пропуски (100%)</summary>
+        <div class="stats-content">
+
+        <h2>Целевая переменная (target)</h2>
+        <p>
+            Бинарная классификация: модель учится различать <strong>дропаут</strong> и <strong>завершение</strong> курса.
+        </p>
+        <table>
+            <tr><th>target</th><th>Значение</th><th>Студентов</th><th>Доля</th><th></th></tr>
+            <tr>
+                <td style="color:#238636;font-weight:700">0</td>
+                <td>Завершил (Pass / Fail / Distinction)</td>
+                <td>22 437</td>
+                <td>68,8%</td>
+                <td><div class="bar-wrap"><div class="bar-fill bar-pass" style="width:69%"></div></div></td>
+            </tr>
+            <tr>
+                <td style="color:#f85149;font-weight:700">1</td>
+                <td>Дропаут (Withdrawn)</td>
+                <td>10 156</td>
+                <td>31,2%</td>
+                <td><div class="bar-wrap"><div class="bar-fill bar-withdrawn" style="width:31%"></div></div></td>
+            </tr>
+        </table>
+        <p style="font-size:0.78rem;color:#484f58;margin-top:0.5rem">
+            final_result → target: Withdrawn=1, Pass/Fail/Distinction=0
+        </p>
+
+        <h2>Пропуски в данных</h2>
+        <table>
+            <tr><th>Признак</th><th>% пропусков</th><th>Причина</th></tr>
+            <tr><td>days_until_dropout, dropout_week</td><td>69%</td><td>Есть только для отчисленных (Withdrawn)</td></tr>
+            <tr><td>score_*, assessment_*</td><td>18%</td><td>Студенты без оценок (не сдавали или данные не записаны)</td></tr>
+            <tr><td>early_engagement</td><td>14%</td><td>Нет активности в первую неделю</td></tr>
+            <tr><td>VLE-признаки</td><td>9%</td><td>Студенты без записей в VLE</td></tr>
+            <tr><td>course_completion_ratio</td><td>&lt;1%</td><td>Единичные пропуски</td></tr>
+        </table>
+
+        <h2>Ключевые статистики (числовые признаки)</h2>
+        <table>
+            <tr><th>Признак</th><th>Среднее</th><th>Стд. откл.</th><th>Мин</th><th>Макс</th></tr>
+            <tr><td>total_clicks</td><td>1 621</td><td>2 050</td><td>1</td><td>28 615</td></tr>
+            <tr><td>active_days</td><td>69,6</td><td>58,1</td><td>1</td><td>286</td></tr>
+            <tr><td>avg_score</td><td>72,8</td><td>15,6</td><td>0</td><td>100</td></tr>
+            <tr><td>assessment_success_rate</td><td>0,93</td><td>0,17</td><td>0</td><td>1</td></tr>
+            <tr><td>num_assessments_completed</td><td>7,7</td><td>4,5</td><td>0</td><td>28</td></tr>
+            <tr><td>avg_gap_days</td><td>4,9</td><td>6,1</td><td>0</td><td>218</td></tr>
+            <tr><td>days_registered</td><td>210</td><td>103</td><td>−17</td><td>715</td></tr>
+            <tr><td>inactive_days_ratio</td><td>0,65</td><td>0,22</td><td>0</td><td>0,99</td></tr>
+        </table>
+
+        </div>
+        </details>
+
+        <details class="stats-collapse">
+        <summary>Статистика и пропуски (Train, n=26 074)</summary>
+        <div class="stats-content">
+
+        <p style="font-size:0.82rem;color:#8b949e;margin-bottom:0.5rem">
+            <strong>train_imputed.csv</strong> — 26 074 строк, 53 колонки, 0 NaN.
+            Дропаутов: 8 125 (31,2%).
+            Флаги: is_no_activity=2 277 (8,7%), is_no_assessment=4 652 (17,8%).
+        </p>
+
+        <table>
+            <tr><th>Признак</th><th>Среднее</th><th>Стд. откл.</th><th>Мин</th><th>50%</th><th>Макс</th></tr>
+            <tr><td>total_clicks</td><td>1 493</td><td>2 042</td><td>0</td><td>766</td><td>28 615</td></tr>
+            <tr><td>active_days</td><td>63,8</td><td>58,9</td><td>0</td><td>48</td><td>285</td></tr>
+            <tr><td>avg_score</td><td>59,8</td><td>31,3</td><td>0</td><td>71,3</td><td>100</td></tr>
+            <tr><td>assessment_success_rate</td><td>0,77</td><td>0,39</td><td>0</td><td>1,0</td><td>1</td></tr>
+            <tr><td>num_assessments_completed</td><td>6,4</td><td>5,1</td><td>0</td><td>6</td><td>28</td></tr>
+            <tr><td>avg_gap_days</td><td>24,1</td><td>62,4</td><td>0</td><td>3,7</td><td>225</td></tr>
+            <tr><td>days_registered</td><td>210</td><td>103</td><td>−17</td><td>233</td><td>715</td></tr>
+            <tr><td>inactive_days_ratio</td><td>0,59</td><td>0,28</td><td>0</td><td>0,67</td><td>0,99</td></tr>
+        </table>
+
+        </div>
+        </details>
+
+        <details class="stats-collapse">
+        <summary>Статистика и пропуски (Test, n=6 519)</summary>
+        <div class="stats-content">
+
+        <p style="font-size:0.82rem;color:#8b949e;margin-bottom:0.5rem">
+            <strong>test_imputed.csv</strong> — 6 519 строк, 53 колонки, 0 NaN.
+            Дропаутов: 2 031 (31,2%).
+            Флаги: is_no_activity=575 (8,8%), is_no_assessment=1 195 (18,3%).
+        </p>
+
+        <table>
+            <tr><th>Признак</th><th>Среднее</th><th>Стд. откл.</th><th>Мин</th><th>50%</th><th>Макс</th></tr>
+            <tr><td>total_clicks</td><td>1 424</td><td>1 884</td><td>0</td><td>734</td><td>19 196</td></tr>
+            <tr><td>active_days</td><td>62,5</td><td>58,9</td><td>0</td><td>47</td><td>286</td></tr>
+            <tr><td>avg_score</td><td>59,3</td><td>31,6</td><td>0</td><td>71,1</td><td>100</td></tr>
+            <tr><td>assessment_success_rate</td><td>0,76</td><td>0,39</td><td>0</td><td>1,0</td><td>1</td></tr>
+            <tr><td>num_assessments_completed</td><td>6,2</td><td>5,0</td><td>0</td><td>5</td><td>25</td></tr>
+            <tr><td>avg_gap_days</td><td>24,4</td><td>62,7</td><td>0</td><td>3,8</td><td>225</td></tr>
+            <tr><td>days_registered</td><td>210</td><td>103</td><td>−5</td><td>233</td><td>608</td></tr>
+            <tr><td>inactive_days_ratio</td><td>0,59</td><td>0,28</td><td>0</td><td>0,67</td><td>0,99</td></tr>
+        </table>
+
+        </div>
+        </details>
+
+        <h1>Признаки</h1>
+
+        <h2>Состав признаков</h2>
+        <table>
+            <tr><th>Группа</th><th>Кол-во</th><th>Признаки</th></tr>
+            <tr>
+                <td>Исходные (демография)</td>
+                <td>6</td>
+                <td style="font-size:0.78rem">gender, highest_education, age_band, num_of_prev_attempts, studied_credits, disability</td>
+            </tr>
+            <tr>
+                <td>Engagement (активность)</td>
+                <td>11</td>
+                <td style="font-size:0.78rem">total_clicks, avg_clicks_per_day, active_days, num_resources_visited, weekly_clicks_mean, weekly_clicks_std, activity_slope, activity_drop_ratio, engagement_change, early_engagement, late_engagement</td>
+            </tr>
+            <tr>
+                <td>Consistency (регулярность)</td>
+                <td>4</td>
+                <td style="font-size:0.78rem">avg_gap_days, max_gap_days, activity_variance, inactive_days_ratio</td>
+            </tr>
+            <tr>
+                <td>Performance (успеваемость)</td>
+                <td>9</td>
+                <td style="font-size:0.78rem">avg_score, min_score, max_score, score_std, score_trend, performance_change, num_assessments_completed, num_low_scores, assessment_success_rate</td>
+            </tr>
+            <tr>
+                <td>Temporal (временные)</td>
+                <td>4</td>
+                <td style="font-size:0.78rem">days_registered, days_until_dropout, dropout_week, course_completion_ratio</td>
+            </tr>
+            <tr>
+                <td>Course Load (нагрузка)</td>
+                <td>5</td>
+                <td style="font-size:0.78rem">num_assessments, avg_assessment_weight, max_assessment_weight, assessment_density, deadline_density</td>
+            </tr>
+            <tr>
+                <td>Barrier-Oriented (барьеры)</td>
+                <td>4</td>
+                <td style="font-size:0.78rem">low_engagement_score, knowledge_gap_score, consistency_score, cognitive_overload_score</td>
+            </tr>
+            <tr>
+                <td>Learning Behavior</td>
+                <td>2</td>
+                <td style="font-size:0.78rem">learning_efficiency, resource_diversity</td>
+            </tr>
+        </table>
+
+        <h2>Выбросы (IQR-метод, 1.5×IQR)</h2>
+        <p style="font-size:0.82rem;color:#8b949e;margin-bottom:0.75rem">
+            Выбросы считаются отдельно для каждой выборки. Значение считается выбросом, если оно
+            ниже Q1 − 1.5×IQR или выше Q3 + 1.5×IQR. Показаны признаки с >0% выбросов.
+        </p>
+
+        <details class="stats-collapse">
+        <summary>Выбросы — Train (n=26 074)</summary>
+        <div class="stats-content">
+        <table>
+            <tr><th>Признак</th><th>Q1</th><th>Q3</th><th>IQR</th><th>Нижн. грань</th><th>Верх. грань</th><th>Выбросов</th><th>%</th></tr>
+            {% for r in train_outliers %}
+            {% if r.total_outliers > 0 %}
+            <tr>
+                <td>{{ r.feature }}</td>
+                <td>{{ r.q1 }}</td>
+                <td>{{ r.q3 }}</td>
+                <td>{{ r.iqr }}</td>
+                <td>{{ r.lower if r.lower is not none else '—' }}</td>
+                <td>{{ r.upper if r.upper is not none else '—' }}</td>
+                <td>{{ r.total_outliers }}</td>
+                <td>{{ r.pct }}%</td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+        </table>
+        </div>
+        </details>
+
+        <details class="stats-collapse">
+        <summary>Выбросы — Test (n=6 519)</summary>
+        <div class="stats-content">
+        <table>
+            <tr><th>Признак</th><th>Q1</th><th>Q3</th><th>IQR</th><th>Нижн. грань</th><th>Верх. грань</th><th>Выбросов</th><th>%</th></tr>
+            {% for r in test_outliers %}
+            {% if r.total_outliers > 0 %}
+            <tr>
+                <td>{{ r.feature }}</td>
+                <td>{{ r.q1 }}</td>
+                <td>{{ r.q3 }}</td>
+                <td>{{ r.iqr }}</td>
+                <td>{{ r.lower if r.lower is not none else '—' }}</td>
+                <td>{{ r.upper if r.upper is not none else '—' }}</td>
+                <td>{{ r.total_outliers }}</td>
+                <td>{{ r.pct }}%</td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+        </table>
+        </div>
+        </details>
+
+        {% if barrier_stats %}
+        <h2>Пороговые значения для Learning Barriers</h2>
+        <p style="font-size:0.82rem;color:#8b949e;margin-bottom:0.75rem">
+            Рассчитаны на <strong>train_imputed.csv</strong>, только на <strong>дропаутах (target=1)</strong>.
+            dropout_p50 — медиана среди отчисленных, dropout_p75 — 75-й перцентиль.
+            Если показатель пользователя превышает порог — формируется соответствующий барьер.
+        </p>
+        <table>
+            <tr>
+                <th>Барьер</th>
+                <th>min</th>
+                <th>mean</th>
+                <th>🟡 p50</th>
+                <th>🔴 p75</th>
+                <th>max</th>
+                <th>Шкала</th>
+            </tr>
+            {% for name, label in [
+                ('low_engagement_score', 'Потеря интереса'),
+                ('knowledge_gap_score', 'Пробелы в знаниях'),
+                ('consistency_score', 'Нерегулярность'),
+                ('cognitive_overload_score', 'Перегрузка'),
+            ] %}
+            {% set bs = barrier_stats[name] %}
+            <tr>
+                <td>{{ label }}</td>
+                <td>{{ '%.3f'|format(bs.min) }}</td>
+                <td>{{ '%.3f'|format(bs.mean) }}</td>
+                <td style="color:#d29922;font-weight:600">{{ '%.3f'|format(bs.dropout_p50) }}</td>
+                <td style="color:#f85149;font-weight:600">{{ '%.3f'|format(bs.dropout_p75) }}</td>
+                <td>{{ '%.3f'|format(bs.max) }}</td>
+                <td>
+                    <div style="display:flex;height:6px;width:100px;border-radius:3px;overflow:hidden;background:#21262d">
+                        {% set pct50 = ((bs.dropout_p50 - bs.min) / (bs.max - bs.min) * 100)|int if bs.max > bs.min else 50 %}
+                        {% set pct75 = ((bs.dropout_p75 - bs.min) / (bs.max - bs.min) * 100)|int if bs.max > bs.min else 75 %}
+                        {% set pct50w = pct50 %}
+                        {% set pct75w = pct75 - pct50 %}
+                        {% set pctred = 100 - pct75 %}
+                        <div style="width:{{ pct50w }}%;background:#238636"></div>
+                        <div style="width:{{ pct75w }}%;background:#d29922"></div>
+                        <div style="width:{{ pctred }}%;background:#f85149"></div>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+        <p style="font-size:0.75rem;color:#484f58;margin-top:0.3rem">
+            🟢 зелёная = ниже медианы дропаутов (норма) &nbsp;|&nbsp;
+            🟡 жёлтая = между p50 и p75 дропаутов (внимание) &nbsp;|&nbsp;
+            🔴 красная = выше p75 дропаутов (сформированный барьер)
+        </p>
+
+        <table style="margin-top:1rem">
+            <tr><th>Перцентиль</th><th>Что это</th><th>Значение для системы</th></tr>
+            <tr>
+                <td style="color:#d29922;font-weight:600">p50 (медиана)</td>
+                <td>50% дропаутов имели балл <strong>выше</strong> этого значения</td>
+                <td>Ниже p50 — <span style="color:#238636">нет барьера</span>. Выше — <span style="color:#d29922">жёлтая зона</span>: система <em>может</em> засчитать барьер (особенно если другие барьеры тоже в жёлтой/красной)</td>
+            </tr>
+            <tr>
+                <td style="color:#f85149;font-weight:600">p75</td>
+                <td>Только 25% дропаутов имели балл выше</td>
+                <td>Выше p75 — <span style="color:#f85149">красная зона</span>: система <strong>точно</strong> фиксирует сформированный барьер</td>
+            </tr>
+        </table>
+        {% endif %}
+
+        {% if models %}
+        <h1>Результаты обучения</h1>
+        <p style="font-size:0.82rem;color:#8b949e;margin-bottom:0.75rem">
+            Данные: train_imputed.csv (80% обучение / 20% валидация), test_imputed.csv (финальная оценка).
+            Модели сохраняются в <code>/home/srs/model/&lt;название&gt;</code>.
+        </p>
+
+        {% for m in models %}
+        <h2>{{ m.name }}</h2>
+
+        {% if m.params %}
+        <details class="stats-collapse">
+        <summary>Параметры обучения</summary>
+        <div class="stats-content">
+        <table>
+            <tr><th>Параметр</th><th>Значение</th></tr>
+            {% for k, v in m.params.items() %}
+            <tr><td>{{ k }}</td><td>{{ v }}</td></tr>
+            {% endfor %}
+        </table>
+        </div>
+        </details>
+        {% endif %}
+
+        {% if m.metrics %}
+        <div class="stat-grid">
+            {% for metric_name in ['accuracy','precision','recall','roc_auc','pr_auc'] %}
+            {% if metric_name in m.metrics %}
+            <div class="stat-card">
+                <div class="label">{{ metric_name }}</div>
+                <div class="value">{{ m.metrics[metric_name] }}</div>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+
+        <table style="margin-top:1rem">
+            <tr><th style="width:100px">Метрика</th><th>Что означает в контексте задачи</th></tr>
+            <tr>
+                <td>Accuracy</td>
+                <td>Доля всех правильных ответов модели (и дропаутов, и не-дропаутов). При дисбалансе 31/69 — недостаточна сама по себе: модель, всегда говорящая «не дропаут», даст 69%.</td>
+            </tr>
+            <tr>
+                <td>Precision</td>
+                <td>Из всех, кого модель назвала дропаутом — сколько действительно дропаутов. Низкий precision = много ложных тревог (не-дропаутов ошибочно помечаем как дропаутов).</td>
+            </tr>
+            <tr>
+                <td>Recall</td>
+                <td>Из всех реальных дропаутов — сколько модель нашла. Это <strong>главная метрика</strong> для задачи: нам важнее не пропустить дропаута, даже ценой лишних ложных тревог.</td>
+            </tr>
+            <tr>
+                <td>ROC-AUC</td>
+                <td>Способность модели разделять классы при любом пороге. 0.95 = отлично. Но при дисбалансе может быть обманчиво оптимистичным — всегда смотрите на PR-AUC.</td>
+            </tr>
+            <tr>
+                <td>PR-AUC</td>
+                <td>Площадь под кривой Precision-Recall. В отличие от ROC-AUC, <strong>не обманывается дисбалансом</strong>. Более честная оценка для задачи с редким классом. 0.89 — хороший результат.</td>
+            </tr>
+        </table>
+        {% endif %}
+
+        {% if m.confusion %}
+        <table>
+            <tr><th></th><th>Pred 0</th><th>Pred 1</th></tr>
+            <tr>
+                <td><strong>True 0</strong></td>
+                <td style="color:#238636">{{ m.confusion.tn }}</td>
+                <td style="color:#f85149">{{ m.confusion.fp }}</td>
+            </tr>
+            <tr>
+                <td><strong>True 1</strong></td>
+                <td style="color:#f85149">{{ m.confusion.fn }}</td>
+                <td style="color:#238636">{{ m.confusion.tp }}</td>
+            </tr>
+        </table>
+        <p style="font-size:0.75rem;color:#484f58;margin-top:0.3rem">
+            TN = верно предсказанный не-дропаут, FP = ошибочно предсказанный дропаут,<br>
+            FN = пропущенный дропаут, TP = верно предсказанный дропаут
+        </p>
+        {% endif %}
+
+        {% if m.feature_importance %}
+        <details class="stats-collapse">
+        <summary>Feature importance (top-20)</summary>
+        <div class="stats-content">
+        <table>
+            <tr><th>#</th><th>Признак</th><th>Важность</th><th></th></tr>
+            {% for fi in m.feature_importance[:20] %}
+            {% set max_imp = m.feature_importance[0].importance %}
+            <tr>
+                <td style="color:#484f58">{{ loop.index }}</td>
+                <td>{{ fi.feature }}</td>
+                <td>{{ fi.importance }}</td>
+                <td style="width:120px">
+                    <div class="bar-wrap"><div class="bar-fill bar-pass" style="width:{{ (fi.importance / max_imp * 100)|int }}%"></div></div>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+        </div>
+        </details>
+        {% endif %}
+
+        {% endfor %}
+        {% endif %}
+
+        {% if srs_features %}
+        <h1>SRS Features (extract_features)</h1>
+        <p style="font-size:0.82rem;color:#8b949e;margin-bottom:0.75rem">
+            Данные из SRS БД → extract_features.py. Строк: {{ srs_rows }}. Признаков: {{ srs_columns|length }}.
+        </p>
+        <div style="overflow-x:auto">
+        <table class="feature-table" style="font-size:0.75rem">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    {% for col in srs_columns %}
+                    <th>{{ col }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in srs_features %}
+                <tr>
+                    <td style="color:#484f58">{{ loop.index }}</td>
+                    {% for col in srs_columns %}
+                    {% set val = row.get(col) %}
+                    <td style="max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="{{ val }}">
+                        {% if val is none %}<span style="color:#f85149">NaN</span>
+                        {% elif val is float %}{{ '%.4f' % val }}
+                        {% else %}{{ val }}
+                        {% endif %}
+                    </td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        </div>
+        {% endif %}
+
+        {% if srs_imputed_features %}
+        <h1>SRS Features (imputed)</h1>
+        <p style="font-size:0.82rem;color:#8b949e;margin-bottom:0.75rem">
+            После impute (OUAD-медианы). Строк: {{ srs_imputed_rows }}. Признаков: {{ srs_imputed_columns|length }}.
+            Флаги: is_no_activity, is_no_assessment, missing_barrier_flag.
+        </p>
+        <div style="overflow-x:auto">
+        <table class="feature-table" style="font-size:0.75rem">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    {% for col in srs_imputed_columns %}
+                    <th>{{ col }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in srs_imputed_features %}
+                <tr>
+                    <td style="color:#484f58">{{ loop.index }}</td>
+                    {% for col in srs_imputed_columns %}
+                    {% set val = row.get(col) %}
+                    <td style="max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="{{ val }}">
+                        {% if val is none %}<span style="color:#f85149">NaN</span>
+                        {% elif val is float %}{{ '%.4f' % val }}
+                        {% else %}{{ val }}
+                        {% endif %}
+                    </td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        </div>
+        {% endif %}
+
+        <h1>User's Dropout Prediction</h1>
+
+        {% for pp in prod_predictions %}
+        <div class="session-block" style="margin-bottom:2rem">
+            <h2>Сессия {{ pp.order }} — прогноз на сессию {{ pp.order + 1 }}</h2>
+            <p style="font-size:0.8rem;color:#8b949e;margin:0.2rem 0 0.9rem">
+                Участников на этом рубеже: {{ pp.rows }} · модель CatBoost, порог 0.5 (≥50% — at risk)
+            </p>
+
+            {% for up in pp.predictions %}
+            <div style="background:#161b22;border:1px solid #21262d;border-radius:8px;padding:0.9rem;margin-bottom:0.9rem">
+                <div style="display:flex;justify-content:space-between;align-items:baseline;gap:1rem">
+                    <span style="color:#f0f6fc;font-weight:600;font-size:0.95rem">User {{ up.user_id }}</span>
+                    <span style="font-size:1.35rem;font-weight:700;color:{% if up.probability >= 0.5 %}#f85149{% elif up.probability >= 0.3 %}#d29922{% else %}#238636{% endif %}">
+                        {{ '%.1f'|format(up.probability * 100) }}%
+                    </span>
+                </div>
+                <div style="font-size:0.78rem;margin:0.1rem 0 0.7rem;color:{% if up.prediction == 1 %}#f85149{% else %}#238636{% endif %}">
+                    {% if up.prediction == 1 %}⚠ At risk{% else %}✓ On track{% endif %}
+                </div>
+                {% if up.barriers %}
+                <table>
+                    <tr><th>Barrier</th><th>Score</th><th>P50</th><th>P75</th><th>Status</th></tr>
+                    {% for b in up.barriers %}
+                    <tr>
+                        <td>{{ b.label }}</td>
+                        <td>{{ '%.4f'|format(b.value) }}</td>
+                        <td>{{ '%.4f'|format(b.p50) }}</td>
+                        <td>{{ '%.4f'|format(b.p75) }}</td>
+                        <td style="color:{{ b.color }}">{{ b.icon }} {{ b.level }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+        {% endfor %}
+        {% if not prod_predictions %}
+        <p style="color:#484f58;font-size:0.85rem">No production predictions yet. Run production_predict.py to generate.</p>
+        {% endif %}
+
+        <p class="back-link-bottom"><a href="/srs">← Назад</a></p>
+    </div>
+
+        <div class="project-tree-block" style="margin-top:2rem;padding-top:1rem;border-top:1px solid #30363d">
+            <h2>Структура проекта</h2>
+            <p style="color:#8b949e;font-size:0.8rem;margin:0.2rem 0 0.6rem">Файлы проекта SRS (без структуры базы данных)</p>
+            <pre style="background:#0d1117;border:1px solid #30363d;border-radius:6px;padding:12px;overflow-x:auto;font-size:0.78rem;line-height:1.35;color:#c9d1d9;white-space:pre">{{ project_tree }}</pre>
+        </div>
+</body>
+</html>

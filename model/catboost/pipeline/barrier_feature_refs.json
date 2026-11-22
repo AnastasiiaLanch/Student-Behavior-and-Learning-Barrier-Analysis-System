@@ -1,0 +1,70 @@
+{
+  "low_engagement": {
+    "activity_slope": [
+      -91.0,
+      123.0
+    ],
+    "activity_drop_ratio": [
+      -975.5,
+      0.9983
+    ],
+    "active_days": [
+      0,
+      285.0
+    ],
+    "inactive_days_ratio": [
+      0,
+      0.9909
+    ]
+  },
+  "knowledge_gap": {
+    "avg_score": [
+      0,
+      100.0
+    ],
+    "num_low_scores": [
+      0,
+      9.0
+    ],
+    "score_trend": [
+      -90.0,
+      99.0
+    ],
+    "assessment_success_rate": [
+      0,
+      1.0
+    ]
+  },
+  "consistency": {
+    "avg_gap_days": [
+      0,
+      225.0
+    ],
+    "max_gap_days": [
+      0,
+      225.0
+    ],
+    "activity_variance": [
+      0,
+      496557.7455
+    ]
+  },
+  "cognitive_overload": {
+    "learning_efficiency": [
+      0,
+      100.0
+    ],
+    "avg_score": [
+      0,
+      100.0
+    ],
+    "assessment_density": [
+      0,
+      2.0
+    ],
+    "deadline_density": [
+      0,
+      2.0
+    ]
+  }
+}

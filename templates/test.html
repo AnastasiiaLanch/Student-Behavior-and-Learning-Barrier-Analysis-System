@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Test — SRS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Inter', -apple-system, system-ui, sans-serif;
+            background: #d7dcde; color: #34495e;
+            min-height: 100vh; display: flex; justify-content: center; align-items: flex-start;
+            padding: 2rem;
+        }
+        .container { max-width: 700px; width: 100%; }
+        h1 { font-size: 1.3rem; font-weight: 700; color: #34495e; margin-bottom: 1.5rem; }
+
+        .task-card {
+            background: #fff; border: 1px solid #bcc3c7;
+            border-radius: 8px; padding: 1.5rem; margin-bottom: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+        }
+        .task-card.review { border-color: #f0c040; }
+        .task-question {
+            font-size: 1.1rem; color: #34495e;
+            margin-bottom: 1.25rem; white-space: pre-line; line-height: 1.7;
+        }
+        .task-options-text {
+            font-size: 0.9rem; color: #5a6c7d; white-space: pre-line; line-height: 1.8;
+            margin-bottom: 1.25rem;
+        }
+        .task-meta {
+            font-size: 0.72rem; color: #7f8c8d; margin-bottom: 1rem;
+            text-transform: uppercase; letter-spacing: 0.05em;
+        }
+
+        .options-list { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1.25rem; }
+        .option-btn {
+            background: #fff; border: 1px solid #bcc3c7; border-radius: 6px;
+            padding: 0.6rem 1rem; color: #34495e; font-size: 0.95rem;
+            font-family: inherit; cursor: pointer; text-align: left; transition: all 0.15s;
+        }
+        .option-btn:hover { border-color: #34495e; background: #eef1f3; }
+        .option-btn.selected { border-color: #34495e; background: #dce3e8; }
+
+        .option-check { display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem 0; cursor: pointer; color: #34495e; }
+        .option-check input { accent-color: #34495e; width: 16px; height: 16px; }
+
+        .input-row { display: flex; gap: 0.5rem; align-items: center; }
+        .answer-input {
+            background: #fff; border: 1px solid #bcc3c7; border-radius: 6px;
+            padding: 0.55rem 0.75rem; color: #34495e; font-size: 0.95rem;
+            font-family: inherit; width: 180px; outline: none;
+        }
+        .answer-input:focus { border-color: #34495e; }
+        .submit-btn {
+            background: #34495e; border: none; border-radius: 6px;
+            padding: 0.55rem 1.25rem; color: #fff; font-size: 0.95rem;
+            font-weight: 600; font-family: inherit; cursor: pointer;
+        }
+        .submit-btn:hover { background: #3d5a80; }
+        .submit-btn.update { background: #c0851a; }
+        .submit-btn.update:hover { background: #d4951e; }
+
+        .back-link { display: block; text-align: center; margin-top: 0.5rem; }
+        .back-link a { color: #7f8c8d; text-decoration: none; font-size: 0.85rem; }
+        .back-link a:hover { color: #34495e; }
+
+        .feedback {
+            padding: 1rem 1.25rem; border-radius: 8px; margin-bottom: 1rem; text-align: center;
+        }
+        .feedback.correct { background: #e8f5e9; border: 1px solid #a5d6a7; }
+        .feedback.wrong   { background: #fbe9e7; border: 1px solid #ef9a9a; }
+        .feedback-badge { font-size: 1.2rem; font-weight: 700; color: #34495e; }
+        .feedback-answer { font-size: 0.85rem; color: #5a6c7d; margin-top: 0.4rem; }
+
+        .solution-block {
+            background: #eef1f3; border: 1px solid #bcc3c7;
+            border-radius: 6px; padding: 1rem; margin-top: 0.75rem;
+            font-size: 0.85rem; color: #5a6c7d; white-space: pre-line; line-height: 1.7;
+        }
+
+        .next-link { display: block; text-align: center; margin-top: 0.75rem; }
+        .next-link a { color: #245fb3; text-decoration: none; font-size: 0.9rem; }
+        .next-link a:hover { text-decoration: underline; }
+
+        .review-badge {
+            display: inline-block; background: #f0c040; color: #5c3d00;
+            font-size: 0.7rem; padding: 0.15rem 0.5rem; border-radius: 4px;
+            margin-bottom: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em;
+        }
+
+        .score-row { display: flex; justify-content: center; gap: 1.5rem; margin-bottom: 1.5rem; }
+        .score-item { text-align: center; }
+        .score-num { font-size: 2rem; font-weight: 700; }
+        .score-num.correct { color: #27ae60; }
+        .score-num.wrong { color: #e74c3c; }
+        .score-label { font-size: 0.75rem; color: #7f8c8d; text-transform: uppercase; letter-spacing: 0.05em; }
+
+        /* ── Question navigation bar ── */
+        .qn-bar { display: flex; justify-content: center; gap: 0.4rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+        .qn-dot {
+            width: 32px; height: 32px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.75rem; font-weight: 700; text-decoration: none;
+            border: 2px solid #bcc3c7; transition: all 0.15s;
+        }
+        .qn-dot.current { border-color: #34495e; background: #34495e; color: #d7dcde; }
+        .qn-dot.correct { border-color: #27ae60; background: #e8f5e9; color: #27ae60; }
+        .qn-dot.correct:hover { background: #c8e6c9; }
+        .qn-dot.wrong { border-color: #e74c3c; background: #fbe9e7; color: #e74c3c; }
+        .qn-dot.wrong:hover { background: #ffcdd2; }
+        .qn-dot.empty { color: #bcc3c7; cursor: default; }
+
+        .nav { text-align: center; margin-top: 2rem; }
+        .nav a { color: #7f8c8d; text-decoration: none; font-size: 0.8rem; }
+        .nav a:hover { color: #34495e; }
+
+        @keyframes flash-red {
+            0%, 100% { border-color: #bcc3c7; }
+            50% { border-color: #e74c3c; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Math Test</h1>
+
+        {% if start_prompt %}
+        <div style="text-align:center;padding:3rem 0">
+            <div style="font-size:1.1rem;color:#34495e;margin-bottom:0.5rem">Session {{ start_prompt.num }}/6</div>
+            <div style="font-size:0.8rem;color:#5a6c7d;margin-bottom:1.5rem">9 tasks · Arithmetic, Logic, Probability</div>
+            <form method="post" action="/srs/test/start">
+                <button type="submit" style="
+                    background:#34495e;border:none;border-radius:8px;
+                    padding:0.8rem 2.5rem;color:#fff;font-size:1.1rem;
+                    font-weight:700;font-family:inherit;cursor:pointer;
+                " onmouseover="this.style.background='#3d5a80'" onmouseout="this.style.background='#34495e'">Start the test</button>
+            </form>
+        </div>
+
+        {% elif all_done %}
+        <div class="feedback correct">
+            <div class="feedback-badge">🎉 All 6 sessions completed!</div>
+            <div class="feedback-answer">Thank you for participating.</div>
+        </div>
+
+        {% elif feedback %}
+        <div class="feedback {% if feedback.correct %}correct{% else %}wrong{% endif %}">
+            <div class="feedback-badge">
+                {% if feedback.correct %}✅ Right answer{% else %}❌ Wrong answer{% endif %}
+            </div>
+            {% if not feedback.correct %}
+            <div class="feedback-answer">
+                Your answer: <strong>{{ feedback.user_answer }}</strong>
+                &nbsp;—&nbsp; Correct: <strong>{{ feedback.correct_answer }}</strong>
+            </div>
+            {% endif %}
+            {% if feedback.solution %}
+            <div class="solution-block">{{ feedback.solution }}</div>
+            {% endif %}
+        </div>
+        {% endif %}
+
+        {% if session_done %}
+        <div class="feedback correct" style="margin-top:0.75rem">
+            <div class="feedback-badge" style="font-size:1.05rem">✅ Session {{ session_done.num }}/6 completed</div>
+            <div class="feedback-answer">
+                Score: {{ session_done.correct }}/{{ session_done.total }}
+                &nbsp;·&nbsp; Time: {{ (session_done.time_ms / 1000) | round(1) }}s
+            </div>
+        </div>
+        <div style="text-align:center;padding:0.5rem 0 0">
+            <form method="post" action="/srs/test/start">
+                <input type="hidden" name="retry_session" value="{{ session_done.num }}">
+                <button type="submit" style="
+                    background:#7f8c8d;border:none;border-radius:8px;
+                    padding:0.55rem 1.5rem;color:#fff;font-size:0.9rem;
+                    font-weight:600;font-family:inherit;cursor:pointer;
+                " onmouseover="this.style.background='#95a5a6'" onmouseout="this.style.background='#7f8c8d'">↻ Retry this session</button>
+            </form>
+        </div>
+        {% endif %}
+
+        {% if feedback and not session_done and not review_mode %}
+        <div class="next-link"><a href="/srs/test">Next question →</a></div>
+        {% endif %}
+
+        {% if feedback and review_mode %}
+        <div class="next-link"><a href="/srs/test">← Back to current question</a></div>
+        {% endif %}
+
+        {% if test_task and not feedback %}
+        {% if session_info %}
+        <div style="text-align:center;margin-bottom:0.75rem">
+            <span style="background:#34495e;color:#d7dcde;padding:0.25rem 0.75rem;border-radius:12px;font-size:0.8rem">
+                Session {{ session_info.num }}/6 &nbsp;·&nbsp; {{ session_info.answered }}/{{ session_info.total }}
+            </span>
+        </div>
+        {% endif %}
+
+        {% if all_tasks %}
+        <div class="qn-bar">
+            {% for t in all_tasks if t.has_answer %}
+                {% if test_task and t.id == test_task.id and not review_mode %}
+                    {# current: skip, будет показан отдельно #}
+                {% elif t.is_correct %}
+                    <a href="/srs/test?review={{ t.id }}" class="qn-dot correct" title="Correct">✓</a>
+                {% else %}
+                    <a href="/srs/test?review={{ t.id }}" class="qn-dot wrong" title="Wrong">✗</a>
+                {% endif %}
+            {% endfor %}
+            {# Current question — always rightmost, clickable in review mode #}
+            {% if review_mode %}
+                <a href="/srs/test" class="qn-dot current" title="Back to current">{{ session_info.answered + 1 if session_info else '?' }}</a>
+            {% elif test_task %}
+                <span class="qn-dot current">{{ session_info.answered + 1 if session_info else '?' }}</span>
+            {% endif %}
+            {# Unanswered dots #}
+            {% set remaining = 9 - (session_info.answered if session_info else 0) - 1 %}
+            {% for i in range(remaining) if remaining > 0 %}
+                <span class="qn-dot empty">·</span>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <div class="task-card{% if review_mode %} review{% endif %}">
+            <div class="task-meta">{{ test_task.task_type | replace('_',' ') | capitalize }} &nbsp;·&nbsp; difficulty {{ test_task.difficulty }}</div>
+            {% set lines = test_task.question.split('\n') %}
+            {% if lines|length > 1 %}
+            <div class="task-question">{{ lines[0] }}</div>
+            <div class="task-options-text">{% for line in lines[1:] %}{{ line }}{% if not loop.last %}<br>{% endif %}{% endfor %}</div>
+            {% else %}
+            <div class="task-question">{{ test_task.question }}</div>
+            {% endif %}
+
+            <form method="post" action="/srs/test" id="task-form">
+                <input type="hidden" name="instance_id" value="{{ test_task.id }}">
+                <input type="hidden" name="session_id" id="session-id" value="{{ session_info.num if session_info else '' }}">
+                <input type="hidden" name="started_at" id="started-at" value="">
+                <input type="hidden" name="time_spent_ms" id="time-spent" value="">
+                {% if review_mode %}<input type="hidden" name="review" value="1">{% endif %}
+
+                {% if test_task.answer_type == 'choice_index' and test_task.options %}
+                <input type="hidden" name="user_answer" id="choice-value" value="{% if review_mode and test_task.user_answer %}{{ test_task.user_answer }}{% endif %}">
+                <div class="options-list" id="choice-options">
+                    {% for opt in test_task.options %}
+                    <button type="button" data-value="{{ loop.index0 }}" class="option-btn choice-btn{% if review_mode and test_task.user_answer and (test_task.user_answer|string) == (loop.index0|string) %} selected{% endif %}">{{ opt }}</button>
+                    {% endfor %}
+                </div>
+                <div class="input-row">
+                    <button type="submit" class="submit-btn{% if review_mode %} update{% endif %}">{% if review_mode %}Update{% else %}Submit{% endif %}</button>
+                </div>
+
+                {% elif test_task.answer_type == 'multiple_choice' and test_task.options %}
+                <div class="options-list">
+                    {% for opt in test_task.options %}
+                    <label class="option-check"><input type="checkbox" name="mc_answer" value="{{ loop.index0 }}"
+                        {% if review_mode and test_task.user_answer_checked and loop.index0|string in test_task.user_answer_checked %} checked{% endif %}
+                    > {{ opt }}</label>
+                    {% endfor %}
+                </div>
+                <div class="input-row">
+                    <button type="submit" class="submit-btn{% if review_mode %} update{% endif %}">{% if review_mode %}Update{% else %}Submit{% endif %}</button>
+                </div>
+
+                {% else %}
+                <div class="input-row">
+                    <input type="text" name="user_answer" class="answer-input"
+                           placeholder="Enter answer" autofocus autocomplete="off"
+                           value="{% if review_mode and test_task.user_answer %}{{ test_task.user_answer }}{% endif %}">
+                    <button type="submit" class="submit-btn{% if review_mode %} update{% endif %}">{% if review_mode %}Update{% else %}Submit{% endif %}</button>
+                </div>
+                {% endif %}
+            </form>
+
+            {% if review_mode %}
+            <div class="back-link"><a href="/srs/test">← Back to current question</a></div>
+            {% endif %}
+
+            {% if test_task.solution and not feedback and is_admin %}
+            <details style="margin-top:1rem">
+                <summary style="color:#8b949e;cursor:pointer;font-size:0.85rem">Show solution</summary>
+                <div class="solution-block">{{ test_task.solution }}</div>
+            </details>
+            {% endif %}
+        </div>
+        {% endif %}
+
+        <div class="nav"><a href="/srs">← SRS</a></div>
+    </div>
+
+    <script>
+    (function() {
+        var t0 = Date.now();
+        var form = document.getElementById('task-form');
+        if (!form) return;
+        document.getElementById('started-at').value = t0;
+
+        // ── Single-choice buttons (choice_index) ──
+        var choiceBtns = document.querySelectorAll('.choice-btn');
+        var choiceInput = document.getElementById('choice-value');
+        if (choiceBtns.length && choiceInput) {
+            for (var i = 0; i < choiceBtns.length; i++) {
+                choiceBtns[i].addEventListener('click', function() {
+                    for (var j = 0; j < choiceBtns.length; j++) {
+                        choiceBtns[j].classList.remove('selected');
+                    }
+                    this.classList.add('selected');
+                    choiceInput.value = this.getAttribute('data-value');
+                });
+            }
+            form.addEventListener('submit', function(e) {
+                if (!choiceInput.value) {
+                    e.preventDefault();
+                    var list = document.getElementById('choice-options');
+                    if (list) {
+                        list.style.animation = 'none';
+                        list.offsetHeight;
+                        list.style.animation = 'flash-red 0.4s ease';
+                    }
+                    return false;
+                }
+                document.getElementById('time-spent').value = Date.now() - t0;
+            });
+        }
+
+        // ── Other submit types ──
+        form.addEventListener('submit', function() {
+            document.getElementById('time-spent').value = Date.now() - t0;
+        });
+        var buttons = form.querySelectorAll('button[type=submit], input[type=submit]');
+        for (var i = 0; i < buttons.length; i++) {
+            buttons[i].addEventListener('mousedown', function() {
+                document.getElementById('time-spent').value = Date.now() - t0;
+            });
+        }
+
+        // ── Clickstream tracking ──────────────────────────────────
+        var taskId = {{ test_task.id }};
+        var sessionId = document.getElementById('session-id').value || null;
+        var inputDebounce = null;
+
+        function sendEvent(type, data) {
+            var payload = {type: type, task_instance_id: taskId};
+            if (sessionId) payload.session_id = parseInt(sessionId);
+            if (data) payload.data = data;
+            fetch('/srs/event', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(payload),
+                keepalive: true
+            }).catch(function(){});
+        }
+
+        // click_option — single choice clicks
+        form.addEventListener('click', function(e) {
+            var btn = e.target.closest('.choice-btn');
+            if (btn) sendEvent('click_option', {option: btn.getAttribute('data-value')});
+        });
+        // click_option — checkbox change
+        form.addEventListener('change', function(e) {
+            var cb = e.target.closest('.option-check input[type=checkbox]');
+            if (cb) sendEvent('click_option', {option: cb.value, checked: cb.checked});
+        });
+
+        // input_change — numeric input, debounced 2s
+        var numInput = form.querySelector('input.answer-input');
+        if (numInput) {
+            var pendingInput = false;
+            numInput.addEventListener('input', function() {
+                clearTimeout(inputDebounce);
+                pendingInput = true;
+                inputDebounce = setTimeout(function() {
+                    sendEvent('input_change', null);
+                    pendingInput = false;
+                }, 2000);
+            });
+            form.addEventListener('submit', function() {
+                if (pendingInput) {
+                    clearTimeout(inputDebounce);
+                    sendEvent('input_change', null);
+                    pendingInput = false;
+                }
+            });
+        }
+
+        // answer_submit
+        form.addEventListener('submit', function() {
+            sendEvent('answer_submit', null);
+        });
+
+        // tab_hidden / tab_visible
+        document.addEventListener('visibilitychange', function() {
+            sendEvent(document.hidden ? 'tab_hidden' : 'tab_visible', null);
+        });
+    })();
+    </script>
+</body>
+</html>

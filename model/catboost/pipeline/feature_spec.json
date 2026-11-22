@@ -1,0 +1,74 @@
+{
+  "feature_names": [
+    "gender",
+    "highest_education",
+    "age_band",
+    "num_of_prev_attempts",
+    "studied_credits",
+    "disability",
+    "total_clicks",
+    "avg_clicks_per_day",
+    "active_days",
+    "num_resources_visited",
+    "weekly_clicks_mean",
+    "weekly_clicks_std",
+    "activity_slope",
+    "activity_drop_ratio",
+    "engagement_change",
+    "early_engagement",
+    "late_engagement",
+    "avg_gap_days",
+    "max_gap_days",
+    "activity_variance",
+    "inactive_days_ratio",
+    "avg_score",
+    "min_score",
+    "max_score",
+    "score_std",
+    "score_trend",
+    "performance_change",
+    "num_assessments_completed",
+    "num_low_scores",
+    "assessment_success_rate",
+    "days_registered",
+    "num_assessments",
+    "avg_assessment_weight",
+    "max_assessment_weight",
+    "assessment_density",
+    "deadline_density",
+    "learning_efficiency",
+    "resource_diversity",
+    "low_engagement_score",
+    "knowledge_gap_score",
+    "consistency_score",
+    "cognitive_overload_score",
+    "is_no_activity",
+    "is_no_assessment",
+    "missing_barrier_flag"
+  ],
+  "n_features": 45,
+  "cat_features": [
+    "gender",
+    "highest_education",
+    "age_band",
+    "disability"
+  ],
+  "cat_indices": [
+    0,
+    1,
+    2,
+    5
+  ],
+  "excluded": {
+    "identifiers": [
+      "code_module",
+      "code_presentation",
+      "id_student"
+    ],
+    "leaks": [
+      "days_until_dropout",
+      "dropout_week",
+      "course_completion_ratio"
+    ]
+  }
+}

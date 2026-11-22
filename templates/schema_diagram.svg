@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 620" width="920" height="620">
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#484f58"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="920" height="620" fill="#0d1117"/>
+
+  <!-- ===== Connectors (drawn before nodes) ===== -->
+
+  <!-- studentInfo → studentRegistration  (1) -->
+  <path d="M 370 285 C 250 285, 250 280, 200 280" stroke="#484f58" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+
+  <!-- studentInfo → studentVle  (2) -->
+  <path d="M 460 340 L 460 390" stroke="#484f58" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+
+  <!-- studentInfo → studentAssessment  (3) -->
+  <path d="M 550 285 C 670 285, 670 280, 720 280" stroke="#484f58" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+
+  <!-- assessments → studentAssessment  (4) -->
+  <path d="M 760 140 L 760 220" stroke="#484f58" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+
+  <!-- ===== Labels on connectors ===== -->
+  <text x="280" y="272" fill="#484f58" font-family="monospace" font-size="10" text-anchor="middle">code_module, code_presentation, id_student</text>
+  <text x="475" y="370" fill="#484f58" font-family="monospace" font-size="10" text-anchor="start">code_module, code_presentation, id_student</text>
+  <text x="640" y="272" fill="#484f58" font-family="monospace" font-size="10" text-anchor="middle">id_student</text>
+  <text x="790" y="185" fill="#484f58" font-family="monospace" font-size="10" text-anchor="start">id_assessment</text>
+
+  <!-- ===== Nodes ===== -->
+
+  <!-- studentInfo — center -->
+  <g>
+    <rect x="340" y="240" width="240" height="100" rx="8" fill="#161b22" stroke="#58a6ff" stroke-width="2"/>
+    <text x="460" y="268" fill="#f0f6fc" font-family="system-ui,sans-serif" font-size="14" font-weight="700" text-anchor="middle">studentInfo</text>
+    <text x="460" y="286" fill="#8b949e" font-family="system-ui,sans-serif" font-size="11" text-anchor="middle">Демография + результаты</text>
+    <text x="460" y="306" fill="#484f58" font-family="monospace" font-size="9" text-anchor="middle">PK: id_student + code_module + code_presentation</text>
+    <text x="460" y="326" fill="#c9d1d9" font-family="system-ui,sans-serif" font-size="9" text-anchor="middle">gender · region · age · education · final_result</text>
+  </g>
+
+  <!-- studentRegistration — left -->
+  <g>
+    <rect x="30" y="245" width="170" height="70" rx="8" fill="#161b22" stroke="#d29922" stroke-width="2"/>
+    <text x="115" y="272" fill="#f0f6fc" font-family="system-ui,sans-serif" font-size="13" font-weight="700" text-anchor="middle">studentRegistration</text>
+    <text x="115" y="290" fill="#8b949e" font-family="system-ui,sans-serif" font-size="11" text-anchor="middle">Даты регистрации/отчисления</text>
+    <text x="115" y="305" fill="#484f58" font-family="monospace" font-size="9" text-anchor="middle">date_registration · date_unregistration</text>
+  </g>
+
+  <!-- studentAssessment — right -->
+  <g>
+    <rect x="710" y="240" width="190" height="80" rx="8" fill="#161b22" stroke="#f85149" stroke-width="2"/>
+    <text x="805" y="268" fill="#f0f6fc" font-family="system-ui,sans-serif" font-size="13" font-weight="700" text-anchor="middle">studentAssessment</text>
+    <text x="805" y="285" fill="#8b949e" font-family="system-ui,sans-serif" font-size="11" text-anchor="middle">Оценки за задания</text>
+    <text x="805" y="302" fill="#484f58" font-family="monospace" font-size="9" text-anchor="middle">score · date_submitted · is_banked</text>
+  </g>
+
+  <!-- assessments — top right -->
+  <g>
+    <rect x="670" y="60" width="180" height="70" rx="8" fill="#161b22" stroke="#238636" stroke-width="2"/>
+    <text x="760" y="88" fill="#f0f6fc" font-family="system-ui,sans-serif" font-size="13" font-weight="700" text-anchor="middle">assessments</text>
+    <text x="760" y="105" fill="#8b949e" font-family="system-ui,sans-serif" font-size="11" text-anchor="middle">Информация о заданиях</text>
+    <text x="760" y="120" fill="#484f58" font-family="monospace" font-size="9" text-anchor="middle">type · date · weight</text>
+  </g>
+
+  <!-- studentVle — bottom -->
+  <g>
+    <rect x="300" y="400" width="320" height="80" rx="8" fill="#161b22" stroke="#a371f7" stroke-width="2"/>
+    <text x="460" y="428" fill="#f0f6fc" font-family="system-ui,sans-serif" font-size="14" font-weight="700" text-anchor="middle">studentVle</text>
+    <text x="460" y="446" fill="#8b949e" font-family="system-ui,sans-serif" font-size="11" text-anchor="middle">Кликстрим взаимодействий с материалами</text>
+    <text x="460" y="463" fill="#484f58" font-family="monospace" font-size="9" text-anchor="middle">id_site · date · sum_click  (10.7M строк)</text>
+  </g>
+
+  <!-- ===== Legend ===== -->
+  <g transform="translate(20,500)">
+    <text x="0" y="0" fill="#8b949e" font-family="system-ui,sans-serif" font-size="10" font-weight="600">Условные обозначения</text>
+    <rect x="0" y="10" width="10" height="10" rx="2" fill="#58a6ff"/>
+    <text x="16" y="19" fill="#8b949e" font-family="system-ui,sans-serif" font-size="9">— Основная (демография)</text>
+    <rect x="160" y="10" width="10" height="10" rx="2" fill="#d29922"/>
+    <text x="176" y="19" fill="#8b949e" font-family="system-ui,sans-serif" font-size="9">— Даты</text>
+    <rect x="0" y="28" width="10" height="10" rx="2" fill="#f85149"/>
+    <text x="16" y="37" fill="#8b949e" font-family="system-ui,sans-serif" font-size="9">— Оценки</text>
+    <rect x="160" y="28" width="10" height="10" rx="2" fill="#238636"/>
+    <text x="176" y="37" fill="#8b949e" font-family="system-ui,sans-serif" font-size="9">— Справочник заданий</text>
+    <rect x="0" y="46" width="10" height="10" rx="2" fill="#a371f7"/>
+    <text x="16" y="55" fill="#8b949e" font-family="system-ui,sans-serif" font-size="9">— Кликстрим</text>
+  </g>
+
+</svg>

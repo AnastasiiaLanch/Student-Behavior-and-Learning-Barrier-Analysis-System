@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Inter', -apple-system, system-ui, sans-serif;
+            background: #0d1117;
+            color: #c9d1d9;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .card {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            padding: 3rem 2rem;
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+        }
+        .card h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #f0f6fc;
+            margin-bottom: 0.75rem;
+        }
+        .card .subtitle {
+            color: #8b949e;
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+        }
+        .card .stub {
+            color: #8b949e;
+            font-size: 0.85rem;
+            border-top: 1px solid #21262d;
+            padding-top: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        a {
+            color: #58a6ff;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>SRS</h1>
+        <p class="subtitle">Новый раздел в разработке</p>
+        <p class="stub">
+            <a href="/srs/model">Обучение модели</a><br><br>
+            <a href="/srs/logout">Выйти</a>
+        </p>
+    </div>
+</body>
+</html>

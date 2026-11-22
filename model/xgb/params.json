@@ -1,0 +1,20 @@
+{
+  "model": "XGBoostClassifier",
+  "n_estimators": 2000,
+  "learning_rate": 0.05,
+  "max_depth": 6,
+  "best_iteration": 256,
+  "scale_pos_weight": 2.21,
+  "early_stopping_rounds": 50,
+  "random_state": 42,
+  "train_rows": 20859,
+  "val_rows": 5215,
+  "test_rows": 6519,
+  "features_total": 49,
+  "encoding": {
+    "gender": "Label Encoding",
+    "highest_education": "One-Hot Encoding",
+    "age_band": "Ordinal Encoding (0-35→0, 35-55→1, 55<=→2)",
+    "disability": "Label Encoding"
+  }
+}

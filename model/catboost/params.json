@@ -1,0 +1,20 @@
+{
+  "model": "CatBoostClassifier",
+  "iterations": 2000,
+  "learning_rate": 0.05,
+  "depth": 6,
+  "best_iteration": 554,
+  "auto_class_weights": "Balanced",
+  "early_stopping_rounds": 50,
+  "random_state": 42,
+  "train_rows": 20859,
+  "val_rows": 5215,
+  "test_rows": 6519,
+  "features_total": 45,
+  "cat_features": [
+    "gender",
+    "highest_education",
+    "age_band",
+    "disability"
+  ]
+}

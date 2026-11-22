@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration — SRS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Inter', -apple-system, system-ui, sans-serif;
+            background: #d7dcde; color: #34495e;
+            min-height: 100vh; display: flex; justify-content: center; align-items: center;
+            padding: 2rem;
+        }
+        .container { max-width: 500px; width: 100%; }
+        h1 { font-size: 1.3rem; font-weight: 700; color: #34495e; margin-bottom: 0.4rem; }
+        .subtitle { font-size: 0.85rem; color: #7f8c8d; margin-bottom: 1.5rem; }
+
+        .form-card {
+            background: #fff; border: 1px solid #bcc3c7;
+            border-radius: 8px; padding: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+        }
+        .field { margin-bottom: 1.1rem; }
+        .field label {
+            display: block; font-size: 0.85rem; font-weight: 600;
+            color: #34495e; margin-bottom: 0.35rem;
+        }
+        .field select {
+            width: 100%; padding: 0.55rem 0.75rem;
+            background: #fff; border: 1px solid #bcc3c7; border-radius: 6px;
+            color: #34495e; font-size: 0.95rem; font-family: inherit;
+            outline: none; cursor: pointer;
+        }
+        .field select:focus { border-color: #34495e; }
+
+        .submit-btn {
+            width: 100%; background: #34495e; border: none; border-radius: 6px;
+            padding: 0.65rem 1.25rem; color: #fff; font-size: 1rem;
+            font-weight: 600; font-family: inherit; cursor: pointer; margin-top: 0.5rem;
+        }
+        .submit-btn:hover { background: #3d5a80; }
+
+        .error {
+            background: #fbe9e7; border: 1px solid #ef9a9a;
+            border-radius: 6px; padding: 0.7rem 1rem; margin-bottom: 1rem;
+            color: #c0392b; font-size: 0.85rem; text-align: center;
+        }
+
+        .nav { text-align: center; margin-top: 1.5rem; }
+        .nav a { color: #7f8c8d; text-decoration: none; font-size: 0.8rem; }
+        .nav a:hover { color: #34495e; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Math Test</h1>
+        <div class="subtitle">Please fill in your details to continue</div>
+
+        {% if error %}
+        <div class="error">{{ error }}</div>
+        {% endif %}
+
+        <div class="form-card">
+            <form method="post" action="/srs/register">
+                <div class="field">
+                    <label for="gender">Gender</label>
+                    <select name="gender" id="gender" required>
+                        <option value="">— Select —</option>
+                        <option value="F">F</option>
+                        <option value="M">M</option>
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label for="highest_education">Highest education</label>
+                    <select name="highest_education" id="highest_education" required>
+                        <option value="">— Select —</option>
+                        <option value="A Level or Equivalent">A Level or Equivalent</option>
+                        <option value="HE Qualification">HE Qualification</option>
+                        <option value="Lower Than A Level">Lower Than A Level</option>
+                        <option value="No Formal quals">No Formal quals</option>
+                        <option value="Post Graduate Qualification">Post Graduate Qualification</option>
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label for="age_band">Age group</label>
+                    <select name="age_band" id="age_band" required>
+                        <option value="">— Select —</option>
+                        <option value="0-35">0-35</option>
+                        <option value="35-55">35-55</option>
+                        <option value="55<=">55&lt;=</option>
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label for="disability">Disability</label>
+                    <select name="disability" id="disability">
+                        <option value="N">N</option>
+                        <option value="Y">Y</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="submit-btn">Continue to test →</button>
+            </form>
+        </div>
+
+        <div class="nav"><a href="/srs">← SRS</a></div>
+    </div>
+</body>
+</html>

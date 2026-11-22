@@ -1,0 +1,182 @@
+[
+  {
+    "feature": "days_registered",
+    "importance": 19.7641
+  },
+  {
+    "feature": "num_assessments_completed",
+    "importance": 12.4683
+  },
+  {
+    "feature": "avg_assessment_weight",
+    "importance": 7.9234
+  },
+  {
+    "feature": "max_assessment_weight",
+    "importance": 7.7325
+  },
+  {
+    "feature": "num_assessments",
+    "importance": 5.2991
+  },
+  {
+    "feature": "assessment_density",
+    "importance": 4.848
+  },
+  {
+    "feature": "deadline_density",
+    "importance": 3.0635
+  },
+  {
+    "feature": "consistency_score",
+    "importance": 2.5395
+  },
+  {
+    "feature": "studied_credits",
+    "importance": 2.4697
+  },
+  {
+    "feature": "inactive_days_ratio",
+    "importance": 2.3377
+  },
+  {
+    "feature": "early_engagement",
+    "importance": 1.7239
+  },
+  {
+    "feature": "active_days",
+    "importance": 1.6986
+  },
+  {
+    "feature": "max_score",
+    "importance": 1.587
+  },
+  {
+    "feature": "resource_diversity",
+    "importance": 1.4141
+  },
+  {
+    "feature": "score_std",
+    "importance": 1.3896
+  },
+  {
+    "feature": "score_trend",
+    "importance": 1.3028
+  },
+  {
+    "feature": "num_of_prev_attempts",
+    "importance": 1.2817
+  },
+  {
+    "feature": "activity_drop_ratio",
+    "importance": 1.277
+  },
+  {
+    "feature": "activity_slope",
+    "importance": 1.2728
+  },
+  {
+    "feature": "cognitive_overload_score",
+    "importance": 1.2309
+  },
+  {
+    "feature": "engagement_change",
+    "importance": 1.1962
+  },
+  {
+    "feature": "learning_efficiency",
+    "importance": 1.1773
+  },
+  {
+    "feature": "avg_gap_days",
+    "importance": 1.1061
+  },
+  {
+    "feature": "knowledge_gap_score",
+    "importance": 1.1037
+  },
+  {
+    "feature": "num_resources_visited",
+    "importance": 1.0671
+  },
+  {
+    "feature": "avg_score",
+    "importance": 1.059
+  },
+  {
+    "feature": "min_score",
+    "importance": 1.0487
+  },
+  {
+    "feature": "performance_change",
+    "importance": 1.0069
+  },
+  {
+    "feature": "max_gap_days",
+    "importance": 0.9677
+  },
+  {
+    "feature": "low_engagement_score",
+    "importance": 0.9116
+  },
+  {
+    "feature": "avg_clicks_per_day",
+    "importance": 0.8849
+  },
+  {
+    "feature": "highest_education",
+    "importance": 0.8523
+  },
+  {
+    "feature": "total_clicks",
+    "importance": 0.8476
+  },
+  {
+    "feature": "activity_variance",
+    "importance": 0.7779
+  },
+  {
+    "feature": "late_engagement",
+    "importance": 0.7135
+  },
+  {
+    "feature": "weekly_clicks_std",
+    "importance": 0.6457
+  },
+  {
+    "feature": "weekly_clicks_mean",
+    "importance": 0.596
+  },
+  {
+    "feature": "assessment_success_rate",
+    "importance": 0.4986
+  },
+  {
+    "feature": "gender",
+    "importance": 0.3865
+  },
+  {
+    "feature": "num_low_scores",
+    "importance": 0.197
+  },
+  {
+    "feature": "age_band",
+    "importance": 0.1754
+  },
+  {
+    "feature": "disability",
+    "importance": 0.1563
+  },
+  {
+    "feature": "is_no_activity",
+    "importance": 0.0
+  },
+  {
+    "feature": "is_no_assessment",
+    "importance": 0.0
+  },
+  {
+    "feature": "missing_barrier_flag",
+    "importance": 0.0
+  }
+]

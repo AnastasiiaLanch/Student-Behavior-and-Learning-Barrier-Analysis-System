@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Inter', -apple-system, system-ui, sans-serif;
+            background: #0d1117;
+            color: #c9d1d9;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .login-card {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            padding: 2.5rem 2rem;
+            width: 100%;
+            max-width: 380px;
+        }
+        .login-card h1 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #f0f6fc;
+            text-align: center;
+            margin-bottom: 0.25rem;
+        }
+        .login-card .subtitle {
+            text-align: center;
+            color: #8b949e;
+            font-size: 0.85rem;
+            margin-bottom: 1.5rem;
+        }
+        .error-msg {
+            background: #490202;
+            border: 1px solid #f85149;
+            border-radius: 6px;
+            padding: 0.5rem 0.75rem;
+            color: #f85149;
+            font-size: 0.8rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        .form-group label {
+            display: block;
+            font-size: 0.8rem;
+            color: #8b949e;
+            margin-bottom: 0.3rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+        .form-group input {
+            width: 100%;
+            background: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            padding: 0.6rem 0.75rem;
+            color: #c9d1d9;
+            font-size: 0.95rem;
+            font-family: inherit;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .form-group input:focus {
+            border-color: #58a6ff;
+        }
+        .btn {
+            width: 100%;
+            background: #238636;
+            border: none;
+            border-radius: 6px;
+            padding: 0.6rem;
+            color: #fff;
+            font-size: 0.95rem;
+            font-weight: 600;
+            font-family: inherit;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-top: 0.5rem;
+        }
+        .btn:hover {
+            background: #2ea043;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-card">
+        <h1>SRS</h1>
+        <p class="subtitle">Вход в систему</p>
+        {% if error %}
+        <div class="error-msg">Неверный логин или пароль</div>
+        {% endif %}
+        <form method="post" action="/srs/enter">
+            <div class="form-group">
+                <label>Логин</label>
+                <input type="text" name="username" autocomplete="username" required autofocus>
+            </div>
+            <div class="form-group">
+                <label>Пароль</label>
+                <input type="password" name="password" autocomplete="current-password" required>
+            </div>
+            <button type="submit" class="btn">Войти</button>
+        </form>
+    </div>
+</body>
+</html>

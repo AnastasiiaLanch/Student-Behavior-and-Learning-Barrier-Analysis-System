@@ -1,0 +1,198 @@
+[
+  {
+    "feature": "num_assessments_completed",
+    "importance": 0.3658
+  },
+  {
+    "feature": "num_assessments",
+    "importance": 0.0593
+  },
+  {
+    "feature": "max_assessment_weight",
+    "importance": 0.0462
+  },
+  {
+    "feature": "days_registered",
+    "importance": 0.0457
+  },
+  {
+    "feature": "consistency_score",
+    "importance": 0.0402
+  },
+  {
+    "feature": "assessment_success_rate",
+    "importance": 0.0378
+  },
+  {
+    "feature": "avg_assessment_weight",
+    "importance": 0.0368
+  },
+  {
+    "feature": "assessment_density",
+    "importance": 0.0329
+  },
+  {
+    "feature": "inactive_days_ratio",
+    "importance": 0.0199
+  },
+  {
+    "feature": "max_gap_days",
+    "importance": 0.0166
+  },
+  {
+    "feature": "max_score",
+    "importance": 0.0157
+  },
+  {
+    "feature": "active_days",
+    "importance": 0.0155
+  },
+  {
+    "feature": "studied_credits",
+    "importance": 0.0143
+  },
+  {
+    "feature": "cognitive_overload_score",
+    "importance": 0.0129
+  },
+  {
+    "feature": "knowledge_gap_score",
+    "importance": 0.0109
+  },
+  {
+    "feature": "edu_Lower Than A Level",
+    "importance": 0.0107
+  },
+  {
+    "feature": "learning_efficiency",
+    "importance": 0.0104
+  },
+  {
+    "feature": "avg_score",
+    "importance": 0.0103
+  },
+  {
+    "feature": "total_clicks",
+    "importance": 0.01
+  },
+  {
+    "feature": "num_resources_visited",
+    "importance": 0.01
+  },
+  {
+    "feature": "activity_slope",
+    "importance": 0.01
+  },
+  {
+    "feature": "score_std",
+    "importance": 0.0099
+  },
+  {
+    "feature": "num_of_prev_attempts",
+    "importance": 0.0093
+  },
+  {
+    "feature": "avg_clicks_per_day",
+    "importance": 0.0091
+  },
+  {
+    "feature": "avg_gap_days",
+    "importance": 0.0091
+  },
+  {
+    "feature": "activity_variance",
+    "importance": 0.0091
+  },
+  {
+    "feature": "performance_change",
+    "importance": 0.0087
+  },
+  {
+    "feature": "weekly_clicks_mean",
+    "importance": 0.0086
+  },
+  {
+    "feature": "score_trend",
+    "importance": 0.0086
+  },
+  {
+    "feature": "early_engagement",
+    "importance": 0.0085
+  },
+  {
+    "feature": "weekly_clicks_std",
+    "importance": 0.0083
+  },
+  {
+    "feature": "min_score",
+    "importance": 0.0082
+  },
+  {
+    "feature": "late_engagement",
+    "importance": 0.0081
+  },
+  {
+    "feature": "low_engagement_score",
+    "importance": 0.0076
+  },
+  {
+    "feature": "edu_HE Qualification",
+    "importance": 0.0073
+  },
+  {
+    "feature": "activity_drop_ratio",
+    "importance": 0.0072
+  },
+  {
+    "feature": "engagement_change",
+    "importance": 0.007
+  },
+  {
+    "feature": "age_band",
+    "importance": 0.0067
+  },
+  {
+    "feature": "num_low_scores",
+    "importance": 0.0062
+  },
+  {
+    "feature": "disability",
+    "importance": 0.0056
+  },
+  {
+    "feature": "gender",
+    "importance": 0.0053
+  },
+  {
+    "feature": "edu_A Level or Equivalent",
+    "importance": 0.0049
+  },
+  {
+    "feature": "edu_No Formal quals",
+    "importance": 0.0048
+  },
+  {
+    "feature": "deadline_density",
+    "importance": 0.0
+  },
+  {
+    "feature": "resource_diversity",
+    "importance": 0.0
+  },
+  {
+    "feature": "is_no_activity",
+    "importance": 0.0
+  },
+  {
+    "feature": "is_no_assessment",
+    "importance": 0.0
+  },
+  {
+    "feature": "missing_barrier_flag",
+    "importance": 0.0
+  },
+  {
+    "feature": "edu_Post Graduate Qualification",
+    "importance": 0.0
+  }
+]
